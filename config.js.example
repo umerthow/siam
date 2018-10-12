@@ -1,0 +1,55 @@
+const path = require('path');
+const fs = require('fs');
+
+const env = process.env['NODE_ENV'] || 'development'
+const sequalizeConf = fs.readFileSync(path.join(__dirname, 'config/sequelize.json'))
+let database = JSON.parse(sequalizeConf)
+database = database[env]
+database.dsn = `${database.dialect}://${database.username}:${database.password}@${database.host}:${database.port}/${database.database}`
+database.modelPaths = [__dirname + '/src/models']
+
+const mailer = {
+    host: "smtp.mailtrap.io",
+    port: 25,
+    username: "cfe3141494d973",
+    password: "43210196075679",
+    secure: false,
+    from: 'admin@siam.project'
+}
+
+const config = {}
+config['development'] = {
+    version     : 'v1.0.0',
+    routerApi   : '/api/v1',
+    port        : 8000,
+    viewEngine  : 'ejs',
+    templatePath: path.join(__dirname, 'views'),
+    publicPath  : path.join(__dirname, 'public'),
+    logPath     : path.join(__dirname, 'logs'),
+    assertUrl   : '',
+    services    : [],
+
+    secret      : 'rahasia',
+    perPage     : 10,
+
+    resetPassword: {
+        tokenExpire: 0,
+        endpoint: 'http://localhost:8000/auth/new_password'
+    },
+
+    endpoints : {
+        successUrl  : '/dashboard',
+        failedUrl   : '/login',
+        endUrl      : '/logout',
+    },
+
+    cookieLive: 1000 * 60 * 60 * 24 * 7,
+    publicRouters: ['login', 'auth', 'register', 'forgot'],
+    database: database,
+
+    mailer: mailer
+
+}
+
+config[env].env = env
+module.exports = config[env]

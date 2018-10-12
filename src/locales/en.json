@@ -1,0 +1,26 @@
+{
+    "user": {
+        "login": {
+            "success": "Successfuly login",
+            "failed": "Invalid email/password"
+        },
+        "register": {
+            "email_used": "Email has been used",
+            "password_not_match": "Password is not match"
+        }
+    },
+    "role": {
+        "validation": {
+            "perm_type_not_valid": "Perms must be integer",
+            "status_type_not_valid": "Status must be integer"
+        },  
+        "errors": {
+            "not_found": "Role doesn't exists yet",
+            "role_is_used": "Failed to remove Role"
+        },
+        "notify": {
+            "success_update": "Role successfully updated",
+            "failed_update": "Role failed to update"
+        }
+    }
+}
